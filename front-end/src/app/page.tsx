@@ -8,6 +8,10 @@ import { Image } from 'lucide-react';
 import { SquarePlay } from 'lucide-react';
 import { Laugh } from 'lucide-react';
 import PostsCard from '@/components/card/PostsCard';
+import PeopleMayKnowCard from '@/components/card/PeopleMayKnowCard';
+import { Divider } from '@nextui-org/divider';
+import FollowRequestCard from '@/components/card/FollowRequestCard';
+import FollowReqAndPeopleMayKnowButton from '@/components/button/FollowReqAndPeopleMayKnowButton';
 
 export default function Home() {
   const skills: string[] = [
@@ -78,7 +82,27 @@ export default function Home() {
             <PostsCard />
             <PostsCard />
           </div>
-          <div></div>
+          <div className="mt-10 w-[27%] h-full">
+            <div className="rounded-xl bg-[#282828] flex-col items-center h-full overflow-y-scroll [&::-webkit-scrollbar]:hidden">
+              <div className="p-6 ">
+                <h1 className="font-semibold text-lg">People you may know</h1>
+              </div>
+              <PeopleMayKnowCard />
+              <PeopleMayKnowCard />
+              <PeopleMayKnowCard />
+              <FollowReqAndPeopleMayKnowButton buttonText="See More" />
+              <Divider className="mt-6" />
+              <div className="p-6 flex items-center font-semibold text-lg gap-4">
+                <h1>Follow Requests</h1>
+                <p className="text-secondary">Total (29)</p>
+              </div>
+              <FollowRequestCard />
+              <FollowRequestCard />
+              <FollowRequestCard />
+              <FollowRequestCard />
+              <FollowReqAndPeopleMayKnowButton buttonText="See All" />
+            </div>
+          </div>
         </div>
       </div>
     </div>

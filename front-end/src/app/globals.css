@@ -41,3 +41,7 @@ body {
 .boldText {
   font-weight: 800;
 }
+
+.commentInput {
+  background-color: #222222;
+}

@@ -8,6 +8,8 @@ import { Button } from '@nextui-org/button';
 import { ArrowDownToLine } from 'lucide-react';
 import { EllipsisVertical } from 'lucide-react';
 import { Divider } from '@nextui-org/divider';
+import { Textarea } from '@nextui-org/input';
+import { SendHorizontal } from 'lucide-react';
 
 const PostsCard = () => {
   return (
@@ -71,6 +73,23 @@ const PostsCard = () => {
                 Hire Me
               </Button>
             </div>
+          </div>
+          <Divider className="mt-6" />
+          <div className="mt-3 flex item-center justify-between">
+            <Avatar
+              isBordered
+              radius="full"
+              size="md"
+              src="/"
+              className="mr-2"
+            />
+            <Textarea
+              variant="bordered"
+              placeholder="Write your comments"
+              minRows={1}
+              fullWidth={false}
+              className="max-w-[510px]"
+            />
           </div>
         </div>
       </div>
