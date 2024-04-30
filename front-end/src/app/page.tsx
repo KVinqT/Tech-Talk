@@ -26,7 +26,7 @@ export default function Home() {
     'MongoDB',
   ];
   return (
-    <div>
+    <div className="manrope">
       <NavBar />
       <div className="max-w-[95%] m-auto justify-center h-full mt-12">
         <div className="w-full flex gap-8">
