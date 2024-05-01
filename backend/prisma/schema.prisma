@@ -1,0 +1,109 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  user_id       BigInt    @id @default(autoincrement())
+  first_name    String    @db.VarChar(255)
+  last_name     String    @db.VarChar(255)
+  gender        Int
+  email         String    @unique @db.VarChar(255)
+  phone_number  String    @unique @db.VarChar(255)
+  password      String    @unique @db.VarChar(255)
+  followedBy    Follows[] @relation("followedBy")
+  following     Follows[] @relation("following")  
+  posts         UserPosts[]
+  created_at    DateTime? @default(now())
+  updated_at    DateTime? @default(now())
+}
+
+model UserPosts {
+  user_post_id      BigInt @id @default(autoincrement())
+  description       String @db.VarChar(255)
+  status            String @default("public") @db.VarChar(255)
+  user_id           BigInt
+  user              Users  @relation(fields: [user_id],references: [user_id])
+  user_post_images  UserPostImages[]
+  created_at        DateTime? @default(now())
+  updated_at        DateTime? @default(now())
+}
+
+model UserPostImages {
+  user_post_image_id        BigInt  @id @default(autoincrement())
+  user_post_image_url       String  @db.VarChar(255)
+  user_post_image_filename  String  @db.VarChar(255)
+  user_post_id              BigInt
+  post                      UserPosts   @relation(fields: [user_post_id],references: [user_post_id])  
+  created_at                DateTime? @default(now())
+  updated_at                DateTime? @default(now())
+}
+
+model Follows {
+  followedBy   Users @relation("followedBy", fields: [followedById], references: [user_id])
+  followedById BigInt
+  following    Users @relation("following", fields: [followingId], references: [user_id])
+  followingId  BigInt
+  created_at   DateTime? @default(now())
+  updated_at   DateTime? @default(now())
+  @@id([followingId, followedById])
+}
+
+model CompanyUsers {
+  company_id    BigInt @id @default(autoincrement())
+  company_name  String @db.VarChar(255)
+  phone_number  String @db.VarChar(255)
+  email         String @db.VarChar(255)
+  password      String @db.VarChar(255)
+  posts         CompanyPosts[]
+  created_at    DateTime? @default(now())
+  updated_at    DateTime? @default(now())
+}
+
+model CompanyPosts {
+  company_post_id   BigInt        @id @default(autoincrement())
+  title             String        @db.VarChar(255)
+  description       String        @db.VarChar(255)
+  job_type_id       Int
+  job_type          JobTypes      @relation(fields: [job_type_id],references: [job_type_id])
+  company_id        BigInt
+  company_user      CompanyUsers  @relation(fields: [company_id],references: [company_id])  
+}
+
+model Cities {
+  city_id       Int @id @default(autoincrement())
+  city_name     String @db.VarChar(255)
+  townships     Townships[]
+  created_at    DateTime? @default(now())
+  updated_at    DateTime? @default(now())
+}
+
+model Townships {
+  township_id   Int @id @default(autoincrement())
+  township_name String @db.VarChar(255)
+  city_id       Int 
+  city          Cities @relation(fields: [city_id],references: [city_id])
+  created_at    DateTime? @default(now())
+  updated_at    DateTime? @default(now())
+}
+
+model JobTypes {
+  job_type_id     Int @id @default(autoincrement())
+  job_type_name   String @db.VarChar(255)
+  posts           CompanyPosts[]    
+  created_at      DateTime? @default(now())
+  updated_at      DateTime? @default(now())
+}
+
+
+ 
