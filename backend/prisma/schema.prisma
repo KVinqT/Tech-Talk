@@ -65,27 +65,45 @@ model CompanyUsers {
   phone_number  String @db.VarChar(255)
   email         String @db.VarChar(255)
   password      String @db.VarChar(255)
+  city_id       Int 
+  city          Cities @relation(fields: [city_id],references: [city_id])
+  township_id   Int
+  twonship      Townships @relation(fields: [township_id],references: [township_id])
   posts         CompanyPosts[]
   created_at    DateTime? @default(now())
   updated_at    DateTime? @default(now())
 }
 
 model CompanyPosts {
-  company_post_id   BigInt        @id @default(autoincrement())
-  title             String        @db.VarChar(255)
-  description       String        @db.VarChar(255)
-  job_type_id       Int
-  job_type          JobTypes      @relation(fields: [job_type_id],references: [job_type_id])
-  company_id        BigInt
-  company_user      CompanyUsers  @relation(fields: [company_id],references: [company_id])  
+  company_post_id       BigInt        @id @default(autoincrement())
+  title                 String        @db.VarChar(255)
+  description           String        @db.VarChar(255)
+  job_type_id           Int
+  job_type              JobTypes      @relation(fields: [job_type_id],references: [job_type_id])
+  company_id            BigInt
+  company_user          CompanyUsers  @relation(fields: [company_id],references: [company_id]) 
+  company_post_images   CompanyPostImages[]
+  created_at            DateTime?     @default(now())
+  updated_at            DateTime?     @default(now())
+}
+
+model CompanyPostImages {
+  company_post_image_id         BigInt  @id @default(autoincrement())
+  company_post_image_url        String  @db.VarChar(255)
+  company_post_image_filename   String @db.VarChar(255)
+  company_post_id               BigInt
+  company_post                  CompanyPosts  @relation(fields: [company_post_id],references: [company_post_id])
+  created_at      DateTime? @default(now())
+  updated_at      DateTime? @default(now())
 }
 
 model Cities {
-  city_id       Int @id @default(autoincrement())
-  city_name     String @db.VarChar(255)
-  townships     Townships[]
-  created_at    DateTime? @default(now())
-  updated_at    DateTime? @default(now())
+  city_id         Int @id @default(autoincrement())
+  city_name       String @db.VarChar(255)
+  company_users   CompanyUsers[]
+  townships       Townships[]
+  created_at      DateTime? @default(now())
+  updated_at      DateTime? @default(now())
 }
 
 model Townships {
@@ -93,6 +111,7 @@ model Townships {
   township_name String @db.VarChar(255)
   city_id       Int 
   city          Cities @relation(fields: [city_id],references: [city_id])
+  company_users CompanyUsers[]
   created_at    DateTime? @default(now())
   updated_at    DateTime? @default(now())
 }
